@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chi tiết sản phẩm</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    /* CSS for home button container */
+    .home-button-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 20px;
+      margin-left: -300px;
+      /* Sử dụng margin-left thay vì margin-right */
+    }
+
+    .product-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      transition: border-radius 0.3s;
+    }
+
+    /* CSS cho nút "Mua hàng" và "Thêm vào giỏ hàng" */
+    #buyButton,
+    #addToCartButton {
+      padding: 8px 16px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-align: center;
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    #buyButton:hover,
+    #addToCartButton:hover {
+      background-color: darkred;
+    }
+
+    /* CSS cho trang chi tiết sản phẩm */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: 50px auto;
+      max-width: 800px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+
+    .product-image {
+      flex: 0 0 30%;
+      text-align: center;
+      margin-right: 20px;
+    }
+
+    .product-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      transition: border-radius 0.3s;
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    .product-details h2 {
+      margin-bottom: 10px;
+    }
+
+    .product-details p {
+      margin-bottom: 5px;
+    }
+
+    .product-details label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .product-details input[type="number"] {
+      width: 50px;
+      margin-right: 10px;
+    }
+
+    .product-details select {
+      width: 150px;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .product-details button {
+      padding: 8px 16px;
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product-details button:hover {
+      background-color: #555;
+    }
+
+    /* CSS cho hóa đơn */
+    .invoice {
+      margin: 50px auto;
+      max-width: 500px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+
+    .invoice h2 {
+      margin-bottom: 10px;
+    }
+
+    .invoice p {
+      margin-bottom: 5px;
+    }
+
+    /* CSS cho nút kích thước được chọn */
+    .size-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .size-button {
+      padding: 8px 16px;
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .size-button.selected {
+      background-color: #555;
+      color: #fff;
+    }
+
+    /* CSS cho div chứa "Áp dụng" và ô nhập mã giảm giá */
+    .apply-discount {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* CSS cho nút "Mua hàng" */
+    .buy-button {
+      padding: 8px 16px;
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buy-button:hover {
+      background-color: #555;
+    }
+
+    /* CSS cho nút "Nam" */
+    .male-button {
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .male-button.selected {
+      background-color: #555;
+      color: #fff;
+    }
+
+    /* CSS cho nút "Nữ" */
+    .female-button {
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .female-button.selected {
+      background-color: #555;
+      color: #fff;
+    }
+
+    /* CSS cho nút "Áp dụng" */
+    .apply-button {
+      padding: 8px 16px;
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .apply-button:hover {
+      background-color: #555;
+    }
+
+    .cart-button,
+    .home-button {
+      padding: 8px 16px;
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-right: 10px;
+    }
+
+    .cart-button:hover,
+    .home-button:hover {
+      background-color: #555;
+    }
+
+    /* CSS for the home icon */
+    .home-icon {
+      font-size: 20px;
+    }
+
+    /* CSS for button container */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    /* CSS for home button container */
+    .home-button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="product-details">
+    <div class="product-image">
+      <img src="" alt="Product Image" id="productImage" style="max-width: 300px; height: auto;">
+    </div>
+    <div class="product-info">
+      <h2>Thông tin chi tiết sản phẩm</h2>
+      <p><strong>Tên sản phẩm:</strong> <span id="productName"></span></p>
+      <p><strong>Giá:</strong> <span id="productPrice"></span></p>
+      <label for="productSize">Kích thước:</label>
+      <div class="size-buttons">
+        <button type="button" class="size-button" data-size="S">S</button>
+        <button type="button" class="size-button" data-size="M">M</button>
+        <button type="button" class="size-button" data-size="L">L</button>
+      </div>
+      <label for="productColor">Màu sắc:</label>
+      <select id="productColor"></select>
+      <label for="productQuantity">Số lượng:</label>
+      <input type="number" id="productQuantity" value="1" min="1">
+      <div class="apply-discount">
+        <label for="discountCode">Mã giảm giá:</label>
+        <input type="text" id="discountCode">
+        <button type="button" id="applyDiscountButton" class="apply-button">Áp dụng</button>
+      </div>
+      <p><strong>Tổng tiền:</strong> $<span id="totalPrice"></span></p>
+      <br>
+      <div class="button-container">
+        <button type="button" id="buyButton" class="buy-button">Mua hàng</button>
+        <button type="button" id="addToCartButton" class="buy-button">Thêm vào giỏ hàng</button>
+      </div>
+      <div class="home-button-container">
+        <button type="button" id="goToHomeButton" class="home-button">
+          <i class="fas fa-home home-icon"></i>
+        </button>
+        <button type="button" id="goToCartButton" class="cart-button">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var productDetailsString = localStorage.getItem('productDetails');
+    var productDetails = JSON.parse(productDetailsString);
+
+    if (productDetails) {
+      document.getElementById('productName').textContent = productDetails.name;
+      document.getElementById('productImage').src = productDetails.imageUrl;
+      document.getElementById('productPrice').textContent = productDetails.price;
+
+      var sizeButtons = document.querySelectorAll('.size-button');
+      sizeButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          sizeButtons.forEach(function (btn) {
+            btn.classList.remove('selected');
+          });
+          this.classList.add('selected');
+        });
+      });
+
+      var colorSelect = document.getElementById('productColor');
+      productDetails.colors.forEach(function (color) {
+        var option = document.createElement('option');
+        option.value = color;
+        option.textContent = color;
+        colorSelect.appendChild(option);
+      });
+
+      var quantityInput = document.getElementById('productQuantity');
+      var discountInput = document.getElementById('discountCode');
+      var applyDiscountButton = document.getElementById('applyDiscountButton');
+      var totalPriceSpan = document.getElementById('totalPrice');
+      var buyButton = document.getElementById('buyButton');
+      var addToCartButton = document.getElementById('addToCartButton');
+      var goToHomeButton = document.getElementById('goToHomeButton');
+
+      // Tính tổng tiền và cập nhật giá tự động
+      function updatePrice() {
+        var price = parseFloat(productDetails.price);
+        var quantity = parseInt(quantityInput.value);
+        var discount = discountInput.value;
+        var discountMultiplier = 1;
+        if (discount === 'SAVE10') {
+          discountMultiplier = 0.9;
+        } else if (discount === 'SAVE20') {
+          discountMultiplier = 0.8;
+        } else if (discount === 'SAVE30') {
+          discountMultiplier = 0.7;
+        }
+        var totalPrice = price * quantity * discountMultiplier;
+        totalPriceSpan.textContent = totalPrice.toFixed(2);
+      }
+
+      // Gọi hàm updatePrice để tính tổng tiền ban đầu
+      updatePrice();
+
+      // Lắng nghe sự kiện thay đổi trong các trường dữ liệu và gọi hàm updatePrice
+      quantityInput.addEventListener('change', updatePrice);
+      discountInput.addEventListener('input', updatePrice);
+      sizeButtons.forEach(function (button) {
+        button.addEventListener('click', updatePrice);
+      });
+      colorSelect.addEventListener('change', updatePrice);
+
+      // Handler for adding the product to the cart
+      addToCartButton.addEventListener('click', function () {
+        var product = {
+          name: productDetails.name,
+          price: productDetails.price,
+          size: document.querySelector('.size-button.selected').dataset.size,
+          color: colorSelect.value,
+          quantity: parseInt(quantityInput.value),
+          totalPrice: parseFloat(totalPriceSpan.textContent),
+        };
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Đã thêm vào giỏ hàng!');
+      });
+
+      // Handler for going back to Home
+      goToHomeButton.addEventListener('click', function () {
+        window.location.href = 'home.html'; // Replace 'home.html' with your actual Home page URL
+      });
+
+      // Handler for buying the product
+      buyButton.addEventListener('click', function () {
+        // Similar to the Add to Cart handler, but you can redirect to a different page or process the purchase here
+        var product = {
+          name: productDetails.name,
+          price: productDetails.price,
+          size: document.querySelector('.size-button.selected').dataset.size,
+          color: colorSelect.value,
+          quantity: parseInt(quantityInput.value),
+          totalPrice: parseFloat(totalPriceSpan.textContent),
+        };
+        localStorage.setItem('product', JSON.stringify(product));
+        window.location.href = 'invoice.html';
+      });
+    }
+    goToCartButton.addEventListener('click', function () {
+      window.location.href = 'cart.html'; // Thay thế 'cart.html' bằng URL của trang giỏ hàng của bạn
+    });
+    localStorage.setItem('productDetails', JSON.stringify(productDetails));
+
+  </script>
+</body>
+
+
+</html>

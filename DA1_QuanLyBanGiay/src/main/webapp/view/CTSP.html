@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chi Tiết Sản Phẩm</title>
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            background-color: #ffddcc;
+            margin: 20px;
+            padding: 10px;
+        }
+
+
+        h1 {
+            text-align: center;
+            color: #ff3333;
+            text-decoration: underline;
+        }
+
+        #formContainer {
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 2px dotted #666;
+            box-shadow: 5px 5px 10px #888888;
+            max-width: 600px;
+            display: grid; /* Use CSS Grid */
+            grid-template-columns: repeat(2, 1fr); /* Create 2 columns with equal width */
+            gap: 10px; /* Spacing between grid items */
+        }
+
+        #formContainer label {
+            font-weight: bold;
+            color: #3366cc;
+            text-shadow: 1px 1px 2px #ccc;
+        }
+
+        #formContainer input[type="text"],
+        #formContainer input[type="number"],
+        #formContainer select {
+            width: 100%; /* Input fields and select occupy the entire width of their grid cell */
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 2px solid #3366cc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            box-shadow: 1px 1px 2px #ccc;
+        }
+
+        #formContainer button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            background-color: #66cc33;
+            color: #fff;
+            border: 2px solid #3366cc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 3px #888888;
+            cursor: pointer;
+        }
+
+        #formContainer button:last-child {
+            margin-left: 10px;
+            background-color: #ff9933;
+            border-color: #cc3366;
+            box-shadow: 2px 2px 3px #666;
+        }
+
+        #error {
+            color: #cc3366;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        #productTable {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 2px 2px 5px #888888;
+        }
+
+        #productTable th,
+        #productTable td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 2px dashed #666;
+        }
+
+        #productTable th {
+            background-color: #ffcc00;
+            color: #3366cc;
+        }
+
+        #productTable td {
+            background-color: #ff99cc;
+            color: #cc3366;
+            font-weight: bold;
+        }
+
+        #productTable button {
+            padding: 5px 10px;
+            background-color: #ff3366;
+            color: #fff;
+            border: 2px solid #3366cc;
+            border-radius: 3px;
+            box-shadow: 1px 1px 2px #666;
+            cursor: pointer;
+        }
+
+        #productTable button:hover {
+            background-color: #cc3366;
+            box-shadow: 1px 1px 2px #888888;
+        }
+        #id,
+        #soLuong {
+            width: 100px; /* You can adjust the width as needed */
+        }
+
+        /* Style for the comboboxes */
+        #idSP,
+        #idMauSP,
+        #idKichCo {
+            width: 190px; /* You can adjust the width as needed */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Chi Tiết Sản Phẩm</h1>
+  <div id="formContainer">
+        <label for="id">ID:</label>
+        <input type="text" id="id">
+        <label for="idSP">ID SP:</label>
+        <select id="idSP">
+            <option value="">-- Select an ID SP --</option>
+            <option value="idSP1">ID SP 1</option>
+            <option value="idSP2">ID SP 2</option>
+            <option value="idSP3">ID SP 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <label for="idMauSP">ID Mau SP:</label>
+        <select id="idMauSP">
+            <option value="mau1">Mau 1</option>
+            <option value="mau2">Mau 2</option>
+            <option value="mau3">Mau 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <label for="idKichCo">ID Kich Co:</label>
+        <select id="idKichCo">
+            <option value="">-- Select an ID Kich Co --</option>
+            <option value="kichCo1">Kich Co 1</option>
+            <option value="kichCo2">Kich Co 2</option>
+            <option value="kichCo3">Kich Co 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <label for="soLuong">SoLuong:</label>
+        <input type="text" id="soLuong">
+        <button onclick="addProduct()">Thêm</button>
+        <button onclick="saveData()">Sửa</button>
+    </div>
+    <div id="error"></div>
+    <table id="productTable">
+        <tr>
+            <th>ID</th>
+            <th>ID SP</th>
+            <th>ID Mau SP</th>
+            <th>ID Kich Co</th>
+            <th>So Luong</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    <script>
+        var isEditing = false;
+        var editingRow = null;
+
+        function addProduct() {
+            // Kiểm tra các trường bị thiếu
+            var fields = ["id", "idSP", "idMauSP", "idKichCo", "soLuong"];
+            var isFieldsFilled = true;
+            fields.forEach(function(field) {
+                if (document.getElementById(field).value === "") {
+                    isFieldsFilled = false;
+                }
+            });
+
+            if (!isFieldsFilled) {
+                document.getElementById("error").textContent = "Vui lòng điền đầy đủ thông tin.";
+                return;
+            }
+
+            // Lấy giá trị từ các input
+            var id = document.getElementById("id").value;
+            var idSP = document.getElementById("idSP").value;
+            var idMauSP = document.getElementById("idMauSP").value;
+            var idKichCo = document.getElementById("idKichCo").value;
+            var soLuong = document.getElementById("soLuong").value;
+
+            // Tạo một dòng mới trong bảng
+            var table = document.getElementById("productTable");
+            var newRow = table.insertRow(table.rows.length);
+
+            // Thêm các ô vào dòng mới
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+
+            cell1.innerHTML = id;
+            cell2.innerHTML = idSP;
+            cell3.innerHTML = idMauSP;
+            cell4.innerHTML = idKichCo;
+            cell5.innerHTML = soLuong;
+            cell6.innerHTML = '<button onclick="loadData(this)">Load</button> <button onclick="deleteRow(this)">Xóa</button>';
+
+            // Xóa giá trị của input sau khi thêm vào bảng
+            fields.forEach(function(field) {
+                document.getElementById(field).value = "";
+            });
+
+            // Xóa thông báo lỗi nếu có
+            document.getElementById("error").textContent = "";
+        }
+
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function loadData(button) {
+            var row = button.parentNode.parentNode;
+            document.getElementById("id").value = row.cells[0].innerHTML;
+            document.getElementById("idSP").value = row.cells[1].innerHTML;
+            document.getElementById("idMauSP").value = row.cells[2].innerHTML;
+            document.getElementById("idKichCo").value = row.cells[3].innerHTML;
+            document.getElementById("soLuong").value = row.cells[4].innerHTML;
+
+            // Lưu trạng thái đang sửa và dòng đang sửa
+            isEditing = true;
+            editingRow = row;
+        }
+
+        function saveData() {
+            if (isEditing && editingRow) {
+                // Kiểm tra các trường bị thiếu...
+                var fields = ["id", "idSP", "idMauSP", "idKichCo", "soLuong"];
+                var isFieldsFilled = true;
+                fields.forEach(function(field) {
+                    if (document.getElementById(field).value === "") {
+                        isFieldsFilled = false;
+                    }
+                });
+
+                if (!isFieldsFilled) {
+                    document.getElementById("error").textContent = "Vui lòng điền đầy đủ thông tin.";
+                    return;
+                }
+
+                // Cập nhật dữ liệu của dòng đang sửa...
+                editingRow.cells[0].innerHTML = document.getElementById("id").value;
+                editingRow.cells[1].innerHTML = document.getElementById("idSP").value;
+                editingRow.cells[2].innerHTML = document.getElementById("idMauSP").value;
+                editingRow.cells[3].innerHTML = document.getElementById("idKichCo").value;
+                editingRow.cells[4].innerHTML = document.getElementById("soLuong").value;
+
+                // Xóa giá trị của input sau khi cập nhật
+                fields.forEach(function(field) {
+                    document.getElementById(field).value = "";
+                });
+
+                // Xóa thông báo lỗi nếu có
+                document.getElementById("error").textContent = "";
+
+                // Đặt lại trạng thái đang sửa và dòng đang sửa
+                isEditing = false;
+                editingRow = null;
+            }
+        }
+    </script>
+</body>
+</html>

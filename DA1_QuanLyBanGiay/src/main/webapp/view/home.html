@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Giao diện website</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* CSS cho menu */
+    nav ul li {
+      position: relative;
+    }
+
+    .dropdown-info {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-item:hover .dropdown-info {
+      display: block;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav ul li:hover a {
+      background-color: #e5e5e5;
+    }
+
+    nav ul li:hover .dropdown-info {
+      display: block;
+    }
+
+    nav ul li:hover .dropdown-info a {
+      color: black;
+    }
+
+    nav ul li .dropdown-info a:hover {
+      background-color: #e5e5e5;
+      color: white;
+    }
+
+    /* CSS cho các thành phần */
+    header {
+      color: white;
+      padding: 20px;
+    }
+
+    nav {
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      background-color: white;
+    }
+
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 5px;
+      text-align: center;
+    }
+
+    /* CSS cho danh sách <ul> */
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      margin-right: 15px;
+      justify-content: flex-end;
+    }
+
+    nav ul li {
+      text-align: right;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover {
+      color: white;
+    }
+
+    /* CSS cho biểu tượng giỏ hàng và ô tìm kiếm */
+    .header-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-right: 26px;
+      justify-content: space-between;
+      height: 25px;
+    }
+
+    .main {
+      margin-right: auto;
+      margin-left: 20px;
+    }
+
+    .lable {
+      margin-inline-end: 500px;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .filter-sort-icons {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .filter-sort-icons li {
+      margin-right: 20px;
+      margin-left: 20px;
+    }
+
+    .filter-sort-icons i {
+      color: #333;
+    }
+
+    .header-right .cart-icon,
+    .header-right .search-container {
+      margin-left: 10px;
+    }
+
+    .header-right .search-container input[type="text"] {
+      padding: 5px;
+    }
+
+    .header-right .search-container button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .header-right .search-container button i {
+      color: #333;
+    }
+
+    .image-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+    }
+
+    .image-item {
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+      margin-top: 40px;
+      margin-left: 20px;
+      margin-right: 20px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding-bottom: 35px;
+    }
+
+    .image-item img {
+      width: 100%;
+      height: 80%;
+      border-radius: 10px;
+    }
+
+    .image-details {
+      margin-top: 10px;
+    }
+
+    .image-name {
+      font-weight: bold;
+    }
+
+    .image-price {
+      color: gray;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+
+    .pagination a {
+      text-decoration: none;
+      color: #333;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .pagination a:hover {
+      background-color: lightslategrey;
+      color: white;
+    }
+
+    .pagination .prev,
+    .pagination .next {
+      margin-right: 10px;
+    }
+
+    .pagination .active {
+      background-color: #333;
+      color: white;
+    }
+
+    #backToTopBtn {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 100px;
+      height: 40px;
+      color: black;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    #backToTopBtn {
+      /* Các thuộc tính CSS khác */
+      border: 2px solid #000;
+    }
+
+    #backToTopBtn:hover {
+      background-color: lightslategrey;
+    }
+
+    /* CSS cho phần sản phẩm */
+    .product-info {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* CSS cho các mục lựa chọn khác */
+    .dropdown-info {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-item:hover .dropdown-info {
+      display: block;
+    }
+
+    .buy-button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .buy-button:hover {
+      background-color: darkred;
+    }
+
+    /* CSS cho các lựa chọn lọc và sắp xếp */
+    .filter-options,
+    .sort-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-sort-icons li:hover .filter-options,
+    .filter-sort-icons li:hover .sort-options {
+      display: block;
+    }
+
+    .filter-option,
+    .sort-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .filter-option input[type="radio"],
+    .sort-option input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .filter-option label,
+    .sort-option label {
+      font-size: 14px;
+    }
+
+    .filter-options.active,
+    .sort-options.active {
+      display: block;
+    }
+
+    /* CSS cho menu */
+    nav ul li {
+      position: relative;
+    }
+
+    /* ... other CSS rules ... */
+
+    /* Update the CSS for dropdown-info class */
+    .dropdown-info {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      /* Adjust the width to match the parent li element */
+      width: 200px;
+    }
+
+    /* Add some padding and background color to dropdown items */
+    .dropdown-item:hover .dropdown-info {
+      display: block;
+      padding-top: 10px;
+      background-color: #f9f9f9;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav ul li:hover a {
+      background-color: #e5e5e5;
+    }
+
+    nav ul li:hover .dropdown-info {
+      display: block;
+      /* Align dropdowns to the left */
+      left: 0;
+    }
+
+    nav ul li:hover .dropdown-info a {
+      color: black;
+    }
+
+    nav ul li .dropdown-info a:hover {
+      background-color: #e5e5e5;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="#">Trang chủ</a></li>
+      <li class="dropdown-item">
+        <a href="sanpham.html">Sản phẩm</a>
+      </li>
+      <li class="dropdown-item">
+        <a href="CTSP.html">CTSP</a>
+      </li>
+      <li class="dropdown-item">
+        <a href="dongsp.html">Dòng Sản Phẩm</a>
+      </li>
+      <li class="dropdown-item">
+        <a href="size.html">Size</a>
+      </li>
+      <li class="dropdown-item">
+        <a href="nhasanxuat.html">Nhà Sản Xuất</a>
+      </li>
+      <li><a href="khachhang.html">Khách Hàng</a></li>
+      <li><a href="dangnhap.html">Đăng nhập</a></li>
+    </ul>
+    <hr>
+    <div class="header-right">
+      <div class="main">
+        <h1>AE SHOP</h1>
+      </div>
+      <ul>
+        <li class="dropdown-item">
+          <a href="#">Màu sắc</a>
+          <div class="dropdown-info">
+            <ul>
+              <li><a href="#">1</a></li>
+              <br>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="dropdown-item">
+          <a href="#">NSX</a>
+          <div class="dropdown-info">
+            <ul>
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="dropdown-item">
+          <a href="#">Size</a>
+          <div class="dropdown-info">
+            <ul>
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="dropdown-item">
+          <a href="#">Dòng sản phẩm</a>
+          <div class="dropdown-info">
+            <ul>
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+            </ul>
+          </div>
+        </li>
+        <div class="search-container">
+          <input type="text" placeholder="Tìm kiếm">
+          <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="cart-icon">
+          <!-- Sử dụng biểu tượng giỏ hàng từ Font Awesome -->
+          <i class="fas fa-shopping-cart"></i>
+
+        </div>
+        <ul class="filter-sort-icons">
+          <li>
+            <i class="fas fa-filter" id="filterLink"></i>
+            <div class="filter-options">
+              <div class="filter-option">
+                <input type="radio" name="filter" id="filterName">
+                <label for="filterName">Theo tên</label>
+              </div>
+              <div class="filter-option">
+                <input type="radio" name="filter" id="filterPrice">
+                <label for="filterPrice">Theo giá</label>
+              </div>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-sort" id="sortLink"></i>
+            <div class="sort-options">
+              <div class="sort-option">
+                <input type="radio" name="sort" id="sortName">
+                <label for="sortName">Theo tên</label>
+              </div>
+              <div class="sort-option">
+                <input type="radio" name="sort" id="sortPrice">
+                <label for="sortPrice">Theo giá</label>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </ul>
+
+    </div>
+    <hr>
+  </nav>
+
+  <div class="image-list">
+  </div>
+  <div class="pagination">
+    <a href="#" class="prev">&laquo; Trước</a>
+    <a href="#" class="page active">1</a>
+    <a href="#" class="page">2</a>
+    <a href="#" class="page">3</a>
+    <a href="#" class="page">4</a>
+    <a href="#" class="next">Sau &raquo;</a>
+  </div>
+
+  <script>
+    var images = [
+      'image/1.png',
+      'image/2.png',
+      'image/3.png',
+      'image/4.png',
+      'image/5.png',
+      'image/6.png',
+      'image/7.png',
+      'image/8.png',
+      'image/9.png',
+      'image/1.png',
+      'image/2.png',
+      'image/3.png',
+      'image/1.png',
+      'image/2.png',
+      'image/3.png',
+      'image/4.png',
+      'image/5.png',
+      'image/6.png',
+      'image/7.png',
+      'image/8.png',
+      'image/9.png',
+      'image/1.png',
+      'image/2.png',
+      'image/3.png'
+    ];
+    var names = [
+      'Giày Sneaker Nike',
+      'Giày Sneaker Adidas',
+      'Giày Sneaker Puma',
+      'Giày Sneaker Vans',
+      'Giày Sneaker Converse',
+      'Giày Sneaker New Balance',
+      'Giày Sneaker Reebok',
+      'Giày Sneaker Asics',
+      'Giày Sneaker Fila',
+      'Giày Sneaker Under Armour',
+      'Giày Sneaker Balenciaga',
+      'Giày Sneaker Gucci',
+      'Giày Sneaker Nike',
+      'Giày Sneaker Adidas',
+      'Giày Sneaker Puma',
+      'Giày Sneaker Vans',
+      'Giày Sneaker Converse',
+      'Giày Sneaker New Balance',
+      'Giày Sneaker Reebok',
+      'Giày Sneaker Asics',
+      'Giày Sneaker Fila',
+      'Giày Sneaker Under Armour',
+      'Giày Sneaker Balenciaga',
+      'Giày Sneaker Gucci'
+    ];
+    var prices = [
+      100,
+      80,
+      120,
+      90,
+      110,
+      70,
+      100,
+      60,
+      90,
+      80,
+      110,
+      120,
+      100,
+      80,
+      120,
+      90,
+      110,
+      70,
+      100,
+      60,
+      90,
+      80,
+      110,
+      120
+    ];
+    var pageSize = 9;
+    var currentPage = 1;
+    var totalPages = Math.ceil(images.length / pageSize);
+
+    function loadImages(page) {
+      var start = (page - 1) * pageSize;
+      var end = start + pageSize;
+      if (end > images.length) {
+        end = images.length;
+      }
+
+      var imageList = document.querySelector('.image-list');
+      imageList.innerHTML = '';
+
+      for (var i = start; i < end; i++) {
+        (function (index) {
+          var imageItem = document.createElement('div');
+          imageItem.className = 'image-item';
+
+          var imageLink = document.createElement('a');
+          imageLink.href = '#';
+
+          var image = document.createElement('img');
+          image.src = images[index];
+
+          imageLink.appendChild(image);
+          imageItem.appendChild(imageLink);
+
+          var imageDetails = document.createElement('div');
+          imageDetails.className = 'image-details';
+
+          var imageName = document.createElement('p');
+          imageName.className = 'image-name';
+          imageName.textContent = names[index];
+
+          var imagePrice = document.createElement('p');
+          imagePrice.className = 'image-price';
+          imagePrice.textContent = '$' + prices[index];
+
+          imageDetails.appendChild(imageName);
+          imageDetails.appendChild(imagePrice);
+          imageItem.appendChild(imageDetails);
+
+          var buyButton = document.createElement('button');
+          buyButton.className = 'buy-button';
+          buyButton.textContent = 'Mua ngay';
+
+          buyButton.addEventListener('click', function () {
+            showProductDetails(names[index], images[index], prices[index]);
+          });
+
+          imageItem.appendChild(buyButton);
+          imageList.appendChild(imageItem);
+        })(i);
+      }
+    }
+
+    function updatePagination() {
+      var prevLink = document.querySelector('.prev');
+      var nextLink = document.querySelector('.next');
+      var pageLinks = document.querySelectorAll('.page');
+
+      if (currentPage === 1) {
+        prevLink.classList.add('disabled');
+      } else {
+        prevLink.classList.remove('disabled');
+      }
+
+      if (currentPage === totalPages) {
+        nextLink.classList.add('disabled');
+      } else {
+        nextLink.classList.remove('disabled');
+      }
+
+      pageLinks.forEach(function (link, i) {
+        if (i === currentPage - 1) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        loadImages(currentPage);
+        updatePagination();
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        loadImages(currentPage);
+        updatePagination();
+      }
+    }
+
+    var prevLink = document.querySelector('.prev');
+    prevLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      prevPage();
+    });
+
+    var nextLink = document.querySelector('.next');
+    nextLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      nextPage();
+    });
+
+    var pageLinks = document.querySelectorAll('.page');
+    pageLinks.forEach(function (link, i) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        currentPage = i + 1;
+        loadImages(currentPage);
+        updatePagination();
+      });
+    });
+
+    loadImages(currentPage);
+    updatePagination();
+
+    function showProductDetails(productName, imageUrl, productPrice) {
+      var productDetails = {
+        name: productName,
+        imageUrl: imageUrl,
+        price: productPrice,
+        sizes: ['S', 'M', 'L', 'XL'],
+        colors: ['Red', 'Blue', 'Green', 'Yellow'],
+        form: 'Form giày',
+        quantity: 1
+      };
+
+      var productDetailsString = JSON.stringify(productDetails);
+      localStorage.setItem('productDetails', productDetailsString);
+      window.location.href = 'product-details.html';
+    }
+
+    var filterLink = document.getElementById('filterLink');
+    var sortLink = document.getElementById('sortLink');
+    var filterOptions = document.querySelector('.filter-options');
+    var sortOptions = document.querySelector('.sort-options');
+
+    filterLink.addEventListener('mouseenter', function () {
+      filterOptions.classList.add('active');
+    });
+
+    filterLink.addEventListener('mouseleave', function () {
+      filterOptions.classList.remove('active');
+    });
+
+    sortLink.addEventListener('mouseenter', function () {
+      sortOptions.classList.add('active');
+    });
+
+    sortLink.addEventListener('mouseleave', function () {
+      sortOptions.classList.remove('active');
+    });
+  </script>
+</body>
+
+</html>

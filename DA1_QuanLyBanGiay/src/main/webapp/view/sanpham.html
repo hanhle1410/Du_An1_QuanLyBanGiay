@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quản lý sản phẩm</title>
+    <style>
+        /* Style the select element */
+        #formContainer select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 2px solid #3366cc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            box-shadow: 1px 1px 2px #ccc;
+            /* Remove the default dropdown arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            /* Add custom arrow using a background image */
+            background-image: url('dropdown_arrow.png');
+            background-size: 10px;
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+
+        /* Style the options inside the combobox */
+        #formContainer select option {
+            background-color: #fff;
+            color: #333;
+        }
+
+        body {
+
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            background-color: #ffddcc;
+            margin: 20px;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff3333;
+            text-decoration: underline;
+        }
+
+        #formContainer {
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 2px dotted #666;
+            box-shadow: 5px 5px 10px #888888;
+            max-width: 600px;
+            display: grid;
+            /* Use CSS Grid */
+            grid-template-columns: repeat(2, 1fr);
+            /* Create 2 columns with equal width */
+            gap: 10px;
+            /* Spacing between grid items */
+        }
+
+        #formContainer label {
+            font-weight: bold;
+            color: #3366cc;
+            text-shadow: 1px 1px 2px #ccc;
+        }
+
+        #formContainer input[type="text"],
+        #formContainer input[type="number"] {
+            width: 100%;
+            /* Input fields occupy the entire width of their grid cell */
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 2px solid #3366cc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            box-shadow: 1px 1px 2px #ccc;
+        }
+
+        #formContainer button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            background-color: #66cc33;
+            color: #fff;
+            border: 2px solid #3366cc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 3px #888888;
+            cursor: pointer;
+        }
+
+        #formContainer button:last-child {
+            margin-left: 10px;
+            background-color: #ff9933;
+            border-color: #cc3366;
+            box-shadow: 2px 2px 3px #666;
+        }
+
+        #error {
+            color: #cc3366;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        #productTable {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 2px 2px 5px #888888;
+        }
+
+        #productTable th,
+        #productTable td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 2px dashed #666;
+        }
+
+        #productTable th {
+            background-color: #ffcc00;
+            color: #3366cc;
+        }
+
+        #productTable td {
+            background-color: #ff99cc;
+            color: #cc3366;
+            font-weight: bold;
+        }
+
+        #productTable button {
+            padding: 5px 10px;
+            background-color: #ff3366;
+            color: #fff;
+            border: 2px solid #3366cc;
+            border-radius: 3px;
+            box-shadow: 1px 1px 2px #666;
+            cursor: pointer;
+        }
+
+        #productTable button:hover {
+            background-color: #cc3366;
+            box-shadow: 1px 1px 2px #888888;
+        }
+        #formContainer input[type="date"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 2px solid #3366cc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            box-shadow: 1px 1px 2px #ccc;
+        }
+
+source        #formContainer input[type="date"]::-webkit-calendar-picker-indicator {
+            background-image: url('calendar_icon.png');
+            background-size: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Quản lý sản phẩm</h1>
+    <div id="formContainer">
+        <label for="id">ID:</label>
+        <input type="text" id="id">
+        <label for="idDongSP">ID Dong SP:</label>
+        <select id="idDongSP">
+            <option value="dongsp1">Đồng SP 1</option>
+            <option value="dongsp2">Đồng SP 2</option>
+        </select>
+        <label for="idDeGiay">ID De Giay:</label>
+        <select id="idDeGiay">
+            <option value="degiay1">Đế Giày 1</option>
+            <option value="degiay2">Đế Giày 2</option>
+            <!-- Add more options as needed -->
+        </select>
+        <label for="idNSX">ID NSX:</label>
+        <select id="idNSX">
+            <option value="nsx1">NSX 1</option>
+            <option value="nsx2">NSX 2</option>
+            <!-- Add more options as needed -->
+        </select>
+        <label for="ngayNhapHang">Ngày Nhập Hàng:</label>
+        <input type="date" id="ngayNhapHang">
+        
+        <label for="giaNhap">Gia Nhap:</label>
+        <input type="number" id="giaNhap">
+        <label for="giaBan">Gia Ban:</label>
+        <input type="number" id="giaBan">
+        <label for="xuatXu">Xuat Xu:</label>
+        <input type="text" id="xuatXu">
+        <label for="trangThai">Trang Thai:</label>
+        <input type="text" id="trangThai">
+        <button onclick="addProduct()">Lưu</button>
+        <button onclick="clearForm()">Clear</button>
+    </div>
+    <div id="error"></div>
+    <table id="productTable">
+        <tr>
+            <th>ID</th>
+            <th>ID Dong SP</th>
+            <th>ID De Giay</th>
+            <th>ID NSX</th>
+            <th>Ngay Nhap Hang</th>
+            <th>Gia Nhap</th>
+            <th>Gia Ban</th>
+            <th>Xuat Xu</th>
+            <th>Trang Thai</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+
+    <script>
+        var isEditing = false;
+        var editingRow = null;
+
+        function addProduct() {
+            // Kiểm tra các trường bị thiếu
+            var fields = ["id", "idDongSP", "idDeGiay", "idNSX", "ngayNhapHang", "giaNhap", "giaBan", "xuatXu", "trangThai"];
+            var isFieldsFilled = true;
+            fields.forEach(function (field) {
+                if (document.getElementById(field).value === "") {
+                    isFieldsFilled = false;
+                }
+            });
+
+            if (!isFieldsFilled) {
+                document.getElementById("error").textContent = "Vui lòng điền đầy đủ thông tin.";
+                return;
+            }
+
+            // Lấy giá trị từ các input
+            var id = document.getElementById("id").value;
+            var idDongSP = document.getElementById("idDongSP").value;
+            var idDeGiay = document.getElementById("idDeGiay").value;
+            var idNSX = document.getElementById("idNSX").value;
+            var ngayNhapHang = document.getElementById("ngayNhapHang").value;
+            var giaNhap = document.getElementById("giaNhap").value;
+            var giaBan = document.getElementById("giaBan").value;
+            var xuatXu = document.getElementById("xuatXu").value;
+            var trangThai = document.getElementById("trangThai").value;
+
+            // Tạo một dòng mới trong bảng
+            var table = document.getElementById("productTable");
+            var newRow = table.insertRow(table.rows.length);
+
+            // Thêm các ô vào dòng mới
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+            var cell7 = newRow.insertCell(6);
+            var cell8 = newRow.insertCell(7);
+            var cell9 = newRow.insertCell(8);
+            var cell10 = newRow.insertCell(9);
+
+            cell1.innerHTML = id;
+            cell2.innerHTML = idDongSP;
+            cell3.innerHTML = idDeGiay;
+            cell4.innerHTML = idNSX;
+            cell5.innerHTML = ngayNhapHang;
+            cell6.innerHTML = giaNhap;
+            cell7.innerHTML = giaBan;
+            cell8.innerHTML = xuatXu;
+            cell9.innerHTML = trangThai;
+            cell10.innerHTML = '<button onclick="loadData(this)">Load</button> <button onclick="deleteRow(this)">Xóa</button>';
+
+            // Xóa giá trị của input sau khi thêm vào bảng
+            fields.forEach(function (field) {
+                document.getElementById(field).value = "";
+            });
+
+            // Xóa thông báo lỗi nếu có
+            document.getElementById("error").textContent = "";
+        }
+
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function loadData(button) {
+            var row = button.parentNode.parentNode;
+            document.getElementById("id").value = row.cells[0].innerHTML;
+            document.getElementById("idDongSP").value = row.cells[1].innerHTML;
+            document.getElementById("idDeGiay").value = row.cells[2].innerHTML;
+            document.getElementById("idNSX").value = row.cells[3].innerHTML;
+            document.getElementById("ngayNhapHang").value = row.cells[4].innerHTML;
+            document.getElementById("giaNhap").value = row.cells[5].innerHTML;
+            document.getElementById("giaBan").value = row.cells[6].innerHTML;
+            document.getElementById("xuatXu").value = row.cells[7].innerHTML;
+            document.getElementById("trangThai").value = row.cells[8].innerHTML;
+
+            // Lưu trạng thái đang sửa và dòng đang sửa
+            isEditing = true;
+            editingRow = row;
+        }
+
+        function saveData() {
+            if (isEditing && editingRow) {
+
+                var fields = ["id", "idDongSP", "idDeGiay", "idNSX", "ngayNhapHang", "giaNhap", "giaBan", "xuatXu", "trangThai"];
+                var isFieldsFilled = true;
+                fields.forEach(function (field) {
+                    if (document.getElementById(field).value === "") {
+                        isFieldsFilled = false;
+                    }
+                });
+
+                if (!isFieldsFilled) {
+                    document.getElementById("error").textContent = "Vui lòng điền đầy đủ thông tin.";
+                    return;
+                }
+
+                // Cập nhật dữ liệu của dòng đang sửa...
+                editingRow.cells[0].innerHTML = document.getElementById("id").value;
+                editingRow.cells[1].innerHTML = document.getElementById("idDongSP").value;
+                editingRow.cells[2].innerHTML = document.getElementById("idDeGiay").value;
+                editingRow.cells[3].innerHTML = document.getElementById("idNSX").value;
+                editingRow.cells[4].innerHTML = document.getElementById("ngayNhapHang").value;
+                editingRow.cells[5].innerHTML = document.getElementById("giaNhap").value;
+                editingRow.cells[6].innerHTML = document.getElementById("giaBan").value;
+                editingRow.cells[7].innerHTML = document.getElementById("xuatXu").value;
+                editingRow.cells[8].innerHTML = document.getElementById("trangThai").value;
+
+                // Xóa giá trị của input sau khi cập nhật
+                fields.forEach(function (field) {
+                    document.getElementById(field).value = "";
+                });
+
+                // Xóa thông báo lỗi nếu có
+                document.getElementById("error").textContent = "";
+
+                // Đặt lại trạng thái đang sửa và dòng đang sửa
+                isEditing = false;
+                editingRow = null;
+            }
+        }
+        function loadData(button) {
+            var row = button.parentNode.parentNode;
+            document.getElementById("id").value = row.cells[0].innerHTML;
+            document.getElementById("idDongSP").value = row.cells[1].innerHTML;
+            document.getElementById("idDeGiay").value = row.cells[2].innerHTML;
+            document.getElementById("idNSX").value = row.cells[3].innerHTML;
+            document.getElementById("ngayNhapHang").value = row.cells[4].innerHTML;
+            document.getElementById("giaNhap").value = row.cells[5].innerHTML;
+            document.getElementById("giaBan").value = row.cells[6].innerHTML;
+            document.getElementById("xuatXu").value = row.cells[7].innerHTML;
+            document.getElementById("trangThai").value = row.cells[8].innerHTML;
+        
+            // Set the editing state to true and save the editing row
+            isEditing = true;
+            editingRow = row;
+          }
+        
+          function saveData() {
+            if (isEditing && editingRow) {
+              // Update existing product
+              editingRow.cells[0].innerHTML = document.getElementById("id").value;
+              editingRow.cells[1].innerHTML = document.getElementById("idDongSP").value;
+              editingRow.cells[2].innerHTML = document.getElementById("idDeGiay").value;
+              editingRow.cells[3].innerHTML = document.getElementById("idNSX").value;
+              editingRow.cells[4].innerHTML = document.getElementById("ngayNhapHang").value;
+              editingRow.cells[5].innerHTML = document.getElementById("giaNhap").value;
+              editingRow.cells[6].innerHTML = document.getElementById("giaBan").value;
+              editingRow.cells[7].innerHTML = document.getElementById("xuatXu").value;
+              editingRow.cells[8].innerHTML = document.getElementById("trangThai").value;
+        
+              // Clear the form and reset editing state
+              clearForm();
+            } else {
+              // Add new product
+              addProduct();
+            }
+          }
+        
+          function clearForm() {
+            // Clear the form and reset editing state
+            var fields = ["id", "idDongSP", "idDeGiay", "idNSX", "ngayNhapHang", "giaNhap", "giaBan", "xuatXu", "trangThai"];
+            fields.forEach(function (field) {
+              document.getElementById(field).value = "";
+            });
+        
+            isEditing = false;
+            editingRow = null;
+            document.getElementById("error").textContent = "";
+          }
+        </script>
+    </script>
+</body>
+
+</html>
