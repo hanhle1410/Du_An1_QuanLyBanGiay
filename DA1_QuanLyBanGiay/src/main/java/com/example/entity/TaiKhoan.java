@@ -3,17 +3,19 @@ package com.example.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 @Getter @Data
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "TaiKhoan", schema = "dbo")
 public class TaiKhoan {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Size(max = 50)
     @Nationalized
     @Column(name = "Username", nullable = false, length = 50)
@@ -26,7 +28,7 @@ public class TaiKhoan {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdNV")
+    @JoinColumn(name = "IdNV", referencedColumnName = "Id")
     private NhanVien idNV;
 
     @Column(name = "TrangThai")

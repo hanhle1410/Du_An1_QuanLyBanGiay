@@ -2,16 +2,17 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Entity
+@Builder
 @Table(name = "KichCo", schema = "dbo")
 public class KichCo {
     @Id @GeneratedValue(strategy = GenerationType.UUID)

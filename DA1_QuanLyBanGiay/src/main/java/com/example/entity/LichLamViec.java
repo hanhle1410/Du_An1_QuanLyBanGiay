@@ -1,14 +1,16 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "LichLamViec", schema = "dbo")
 public class LichLamViec {
     @Id
@@ -17,19 +19,11 @@ public class LichLamViec {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdNV")
+    @JoinColumn(name = "IdNV", referencedColumnName = "Id")
     private SanPham idNV;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdCaLam")
+    @JoinColumn(name = "IdCaLam", referencedColumnName = "Id")
     private MauSP idCaLam;
 
-    public LichLamViec() {
-    }
-
-    public LichLamViec(UUID id, SanPham idNV, MauSP idCaLam) {
-        this.id = id;
-        this.idNV = idNV;
-        this.idCaLam = idCaLam;
-    }
 }

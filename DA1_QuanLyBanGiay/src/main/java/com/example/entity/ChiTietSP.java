@@ -1,15 +1,19 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
 @Table(name = "ChiTietSP", schema = "dbo")
+
 public class ChiTietSP {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,30 +21,17 @@ public class ChiTietSP {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdSP")
+    @JoinColumn(name = "IdSP", referencedColumnName = "Id")
     private SanPham idSP;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdMauSP")
+    @JoinColumn(name = "IdMauSP", referencedColumnName = "Id")
     private MauSP idMauSP;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdKichCo")
+    @JoinColumn(name = "IdKichCo", referencedColumnName = "Id")
     private KichCo idKichCo;
 
     @Column(name = "SoLuong")
     private Integer soLuong;
-
-
-    public ChiTietSP(UUID id, SanPham idSP, MauSP idMauSP, KichCo idKichCo, Integer soLuong) {
-        this.id = id;
-        this.idSP = idSP;
-        this.idMauSP = idMauSP;
-        this.idKichCo = idKichCo;
-        this.soLuong = soLuong;
-    }
-
-    public ChiTietSP() {
-
-    }
 }

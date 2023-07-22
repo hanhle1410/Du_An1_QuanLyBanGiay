@@ -2,9 +2,7 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
@@ -14,7 +12,10 @@ import java.util.UUID;
 @Data
 @Getter
 @Setter
+@Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "GioHang", schema = "dbo")
 public class GioHang {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
@@ -59,19 +60,5 @@ public class GioHang {
     @OneToMany(mappedBy = "GioHang", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GioHangCT> gioHangCTList;
 
-    public GioHang(UUID id, KhachHang idKH, NhanVien idNV, String ma, LocalDate ngayTao, LocalDate ngayThanhToan, String ten, String sdt, String diaChi, Integer tinhTrang) {
-        this.id = id;
-        this.idKH = idKH;
-        this.idNV = idNV;
-        this.ma = ma;
-        this.ngayTao = ngayTao;
-        this.ngayThanhToan = ngayThanhToan;
-        this.ten = ten;
-        this.sdt = sdt;
-        this.diaChi = diaChi;
-        this.tinhTrang = tinhTrang;
-    }
 
-    public GioHang() {
-    }
 }

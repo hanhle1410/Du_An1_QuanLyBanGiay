@@ -2,38 +2,40 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "HoaDon", schema = "dbo")
 public class HoaDon {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "Id", nullable = false)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdKH")
+    @JoinColumn(name = "IdKH", referencedColumnName = "Id")
     private KhachHang idKH;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdNV")
+    @JoinColumn(name = "IdNV", referencedColumnName = "Id")
     private NhanVien idNV;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdVoucher")
+    @JoinColumn(name = "IdVoucher", referencedColumnName = "Id")
     private Voucher idVoucher;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdSP")
+    @JoinColumn(name = "IdSP", referencedColumnName = "Id")
     private SanPham idSP;
 
     @Size(max = 20)
@@ -52,22 +54,4 @@ public class HoaDon {
     @Column(name = "TrangThai")
     private Integer trangThai;
 
-
-    public HoaDon(UUID id, KhachHang idKH, NhanVien idNV, Voucher idVoucher, SanPham idSP, String ma, LocalDate ngayTao, LocalDate ngayThanhToan, BigDecimal tongTien, Integer trangThai) {
-        this.id = id;
-        this.idKH = idKH;
-        this.idNV = idNV;
-        this.idVoucher = idVoucher;
-        this.idSP = idSP;
-        this.ma = ma;
-        this.ngayTao = ngayTao;
-        this.ngayThanhToan = ngayThanhToan;
-        this.tongTien = tongTien;
-        this.trangThai = trangThai;
-    }
-
-
-    public HoaDon() {
-
-    }
 }
