@@ -2,22 +2,23 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "HoaDon", schema = "dbo")
+@Table(name = "HoaDon")
 public class HoaDon {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,22 +53,7 @@ public class HoaDon {
     @Column(name = "TrangThai")
     private Integer trangThai;
 
+    @OneToMany(mappedBy = "idHoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HoaDonCT> hoaDonCTList = new ArrayList<>();
 
-    public HoaDon(UUID id, KhachHang idKH, NhanVien idNV, Voucher idVoucher, SanPham idSP, String ma, LocalDate ngayTao, LocalDate ngayThanhToan, BigDecimal tongTien, Integer trangThai) {
-        this.id = id;
-        this.idKH = idKH;
-        this.idNV = idNV;
-        this.idVoucher = idVoucher;
-        this.idSP = idSP;
-        this.ma = ma;
-        this.ngayTao = ngayTao;
-        this.ngayThanhToan = ngayThanhToan;
-        this.tongTien = tongTien;
-        this.trangThai = trangThai;
-    }
-
-
-    public HoaDon() {
-
-    }
 }

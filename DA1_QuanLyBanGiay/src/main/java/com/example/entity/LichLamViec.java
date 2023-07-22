@@ -11,9 +11,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "LichLamViec", schema = "dbo")
 public class LichLamViec {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)

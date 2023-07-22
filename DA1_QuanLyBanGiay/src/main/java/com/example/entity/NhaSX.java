@@ -12,10 +12,11 @@ import java.util.UUID;
 @Getter @Data
 @Setter
 @Entity
-@Table(name = "NhaSX", schema = "dbo")
+@Table(name = "NhaSX")
 public class NhaSX {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Size(max = 20)

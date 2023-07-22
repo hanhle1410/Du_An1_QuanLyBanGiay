@@ -1,19 +1,19 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
-@Table(name = "ChiTietSP", schema = "dbo")
+@Table(name = "ChiTietSP")
 public class ChiTietSP {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,15 +32,4 @@ public class ChiTietSP {
     private Integer soLuong;
 
 
-    public ChiTietSP(UUID id, SanPham idSP, MauSP idMauSP, KichCo idKichCo, Integer soLuong) {
-        this.id = id;
-        this.idSP = idSP;
-        this.idMauSP = idMauSP;
-        this.idKichCo = idKichCo;
-        this.soLuong = soLuong;
-    }
-
-    public ChiTietSP() {
-
-    }
 }

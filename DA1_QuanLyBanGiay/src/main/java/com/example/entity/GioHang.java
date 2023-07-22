@@ -2,23 +2,22 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Data
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "GioHang", schema = "dbo")
+@Table(name = "GioHang")
 public class GioHang {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,8 +28,7 @@ public class GioHang {
     @JoinColumn(name = "IdNV")
     private NhanVien idNV;
 
-    @Size(max = 20)
-    @Column(name = "Ma", length = 20)
+    @Column(name = "Ma", unique = true)
     private String ma;
 
     @Column(name = "NgayTao")
@@ -39,39 +37,20 @@ public class GioHang {
     @Column(name = "NgayThanhToan")
     private LocalDate ngayThanhToan;
 
-    @Size(max = 50)
-    @Nationalized
-    @Column(name = "Ten", length = 50)
+    @Column(name = "Ten")
     private String ten;
 
-    @Size(max = 30)
-    @Column(name = "SDT", length = 30)
+    @Column(name = "SDT")
     private String sdt;
 
-    @Size(max = 50)
-    @Nationalized
-    @Column(name = "DiaChi", length = 50)
+    @Column(name = "DiaChi")
     private String diaChi;
 
     @Column(name = "TinhTrang")
     private Integer tinhTrang;
 
-    @OneToMany(mappedBy = "GioHang", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<GioHangCT> gioHangCTList;
+    @OneToMany(mappedBy = "idGioHang", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GioHangCT> gioHangCTList = new ArrayList<>();
 
-    public GioHang(UUID id, KhachHang idKH, NhanVien idNV, String ma, LocalDate ngayTao, LocalDate ngayThanhToan, String ten, String sdt, String diaChi, Integer tinhTrang) {
-        this.id = id;
-        this.idKH = idKH;
-        this.idNV = idNV;
-        this.ma = ma;
-        this.ngayTao = ngayTao;
-        this.ngayThanhToan = ngayThanhToan;
-        this.ten = ten;
-        this.sdt = sdt;
-        this.diaChi = diaChi;
-        this.tinhTrang = tinhTrang;
-    }
 
-    public GioHang() {
-    }
 }

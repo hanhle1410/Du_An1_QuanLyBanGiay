@@ -11,9 +11,11 @@ import org.hibernate.annotations.Nationalized;
 @Getter @Data
 @Setter
 @Entity
-@Table(name = "TaiKhoan", schema = "dbo")
+@Table(name = "TaiKhoan")
 public class TaiKhoan {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Size(max = 50)
     @Nationalized
     @Column(name = "Username", nullable = false, length = 50)

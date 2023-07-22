@@ -2,9 +2,7 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
@@ -12,13 +10,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter @Data
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "SanPham", schema = "dbo")
+@Table(name = "SanPham")
 public class SanPham {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class SanPham {
     private DeGiay idDeGiay;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdNhaSX")
+    @JoinColumn(name = "IdNSX")
     private NhaSX idNhaSX;
 
     @Column(name = "NgayNhapHang")
@@ -50,23 +50,9 @@ public class SanPham {
     @Column(name = "TrangThai")
     private Integer trangThai;
 
-
-    @OneToMany(mappedBy = "SanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "idSP", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietSP> chiTietSPList;
-    public SanPham(UUID id, DongSP idDongSP, DeGiay idDeGiay, NhaSX idNhaSX, LocalDate ngayNhapHang, BigDecimal giaNhap, BigDecimal giaBan, String xuatXu, Integer trangThai) {
-        this.id = id;
-        this.idDongSP = idDongSP;
-        this.idDeGiay = idDeGiay;
-        this.idNhaSX = idNhaSX;
-        this.ngayNhapHang = ngayNhapHang;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
-        this.xuatXu = xuatXu;
-        this.trangThai = trangThai;
-    }
 
-    public SanPham() {
 
-    }
 
 }

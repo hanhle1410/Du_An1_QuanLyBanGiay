@@ -1,21 +1,19 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "GioHangCT", schema = "dbo")
+@Table(name = "GioHangCT")
 public class GioHangCT {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,18 +27,8 @@ public class GioHangCT {
     @Column(name = "SoLuong")
     private Integer soLuong;
 
-    @Column(name = "DonGia", precision = 20)
+    @Column(name = "DonGia")
     private BigDecimal donGia;
 
-    public GioHangCT(UUID id, GioHang idGioHang, ChiTietSP idChiTietSP, Integer soLuong, BigDecimal donGia) {
-        this.id = id;
-        this.idGioHang = idGioHang;
-        this.idChiTietSP = idChiTietSP;
-        this.soLuong = soLuong;
-        this.donGia = donGia;
-    }
 
-    public GioHangCT() {
-
-    }
 }

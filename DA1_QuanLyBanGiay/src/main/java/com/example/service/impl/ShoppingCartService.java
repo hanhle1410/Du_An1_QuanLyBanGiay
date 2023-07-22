@@ -16,5 +16,4 @@ public interface ShoppingCartService {
 
     public GioHangCT update(UUID id , int soLuong);
     public void clear();
-
 }

@@ -14,8 +14,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "KichCo", schema = "dbo")
 public class KichCo {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Size(max = 20)

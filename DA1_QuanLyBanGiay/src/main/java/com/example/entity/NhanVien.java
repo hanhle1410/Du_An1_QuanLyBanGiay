@@ -2,21 +2,21 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
-@Setter @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
-@Table(name = "NhanVien", schema = "dbo")
+@Table(name = "NhanVien")
 public class NhanVien {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,19 +53,5 @@ public class NhanVien {
     @Column(name = "DiaChi", length = 100)
     private String diaChi;
 
-    public NhanVien(UUID id, ChucVu idCV, String ma, String ten, String sdt, String email, String gioiTinh, LocalDate ngaySinh, String diaChi) {
-        this.id = id;
-        this.idCV = idCV;
-        this.ma = ma;
-        this.ten = ten;
-        this.sdt = sdt;
-        this.email = email;
-        this.gioiTinh = gioiTinh;
-        this.ngaySinh = ngaySinh;
-        this.diaChi = diaChi;
-    }
 
-    public NhanVien() {
-
-    }
 }

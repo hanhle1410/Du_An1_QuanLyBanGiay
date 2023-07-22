@@ -1,7 +1,14 @@
 package com.example.service;
 
+
+
+
+import com.example.entity.ChiTietSP;
 import com.example.entity.GioHangCT;
+
+import com.example.repository.ChiTietSPRepository;
 import com.example.repository.GioHangCTRepository;
+import com.example.service.impl.ChiTietSPService;
 import com.example.service.impl.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +19,18 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SessionScope
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Autowired
-    private GioHangCTRepository gioHangCTRepository;
+    private ChiTietSPService chiTietSPService;
 
+    @Autowired
+    private ChiTietSPRepository chiTietSPRepository;
+
+    @Autowired
+    private GioHangCTRepository gioHangCTRepository;
 
     private final Map<UUID, GioHangCT> maps = new HashMap<>();
 
@@ -37,14 +50,28 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void remove(UUID id) {
-        gioHangCTRepository.deleteById(id);
+        Optional<GioHangCT> cartItemOptional = gioHangCTRepository.findById(id);
+        if (cartItemOptional.isPresent()) {
+            GioHangCT cartItem = cartItemOptional.get();
+            gioHangCTRepository.delete(cartItem);
+
+            // Cập nhật số lượng sản phẩm còn lại trong kho
+            Optional<ChiTietSP> chiTietSPOptional = chiTietSPRepository.findById(cartItem.getIdChiTietSP().getId());
+            if (chiTietSPOptional.isPresent()) {
+                ChiTietSP chiTietSPInDb = chiTietSPOptional.get();
+                int remainingQuantity = chiTietSPInDb.getSoLuong() + cartItem.getSoLuong();
+                chiTietSPInDb.setSoLuong(remainingQuantity);
+                chiTietSPRepository.save(chiTietSPInDb);
+            }
+        }
     }
 
     @Override
     public GioHangCT update(UUID id , int soLuong) {
         GioHangCT cartItem = gioHangCTRepository.findById(id).orElse(null);
         cartItem.setSoLuong(soLuong);
-        gioHangCTRepository.save(cartItem);
+        this.gioHangCTRepository.save(cartItem);
+        this.chiTietSPService.addToCart(cartItem.getIdChiTietSP(),soLuong);
         return cartItem;
     }
     @Override

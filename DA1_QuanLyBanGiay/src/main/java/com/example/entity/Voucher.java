@@ -14,10 +14,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Vouncher", schema = "dbo")
+@Table(name = "Vouncher")
 public class Voucher {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id", nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Size(max = 20)
