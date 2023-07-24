@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Info</title>
+    <!-- Add any necessary stylesheets or external resources here -->
+</head>
+<body>
+    <!-- Product details layout -->
+    <h1>Product Info</h1>
+    <div>
+        <label for="IdDongSP">IdDongSP:</label>
+        <input type="text" id="IdDongSP">
+    </div>
+    <div>
+        <!-- Add other fields (IdDeGiay, IdNSX, NgayNhapHang, GiaNhap, GiaBan, XuatXu, TrangThai) here -->
+    </div>
+    <div>
+        <button id="addButton">Add</button>
+        <button id="editButton">Edit</button>
+        <button id="deleteButton">Delete</button>
+    </div>
+
+    <script>
+        // Function to extract query parameters from URL
+        function getQueryParams() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var params = {};
+            for (var pair of urlParams.entries()) {
+                params[pair[0]] = pair[1];
+            }
+            return params;
+        }
+
+        // Function to populate the form fields with product details
+        function populateFormFields(product) {
+            document.getElementById("IdDongSP").value = product.IdDongSP;
+            // Populate other form fields here
+        }
+
+        // Function to handle the "Add" action
+        function handleAddAction() {
+            // Get the product details from the form fields
+            var productDetails = {
+                IdDongSP: document.getElementById("IdDongSP").value,
+                // Get other form fields and add them to the productDetails object
+            };
+
+            // Implement logic to save the product details to a database or localStorage
+            // For demonstration purposes, we'll use localStorage here
+            var productList = JSON.parse(localStorage.getItem("productList") || "[]");
+            productList.push(productDetails);
+            localStorage.setItem("productList", JSON.stringify(productList));
+
+            alert("Product added successfully!");
+        }
+
+        // Function to handle the "Edit" action
+        function handleEditAction() {
+            // Get the product details from the form fields
+            var productDetails = {
+                IdDongSP: document.getElementById("IdDongSP").value,
+                // Get other form fields and add them to the productDetails object
+            };
+
+            // Implement logic to update the product details in the database or localStorage
+            // For demonstration purposes, we'll use localStorage here
+            var productList = JSON.parse(localStorage.getItem("productList") || "[]");
+            // Assuming you have a productId or index to identify the product to be edited
+            var productIdToEdit = 0; // Replace 0 with the actual productId/index
+            productList[productIdToEdit] = productDetails;
+            localStorage.setItem("productList", JSON.stringify(productList));
+
+            alert("Product edited successfully!");
+        }
+
+        // Function to handle the "Delete" action
+        function handleDeleteAction() {
+            // Implement logic to delete the product from the database or localStorage
+            // For demonstration purposes, we'll use localStorage here
+            var productList = JSON.parse(localStorage.getItem("productList") || "[]");
+            // Assuming you have a productId or index to identify the product to be deleted
+            var productIdToDelete = 0; // Replace 0 with the actual productId/index
+            productList.splice(productIdToDelete, 1);
+            localStorage.setItem("productList", JSON.stringify(productList));
+
+            alert("Product deleted successfully!");
+        }
+
+        // Function to initialize the page
+        function init() {
+            var queryParams = getQueryParams();
+            var productDetails = queryParams.product ? JSON.parse(decodeURIComponent(queryParams.product)) : null;
+
+            if (productDetails) {
+                // If product details are available, populate the form fields with them
+                populateFormFields(productDetails);
+                // Disable the "Add" button since we are editing an existing product
+                document.getElementById("addButton").disabled = true;
+            } else {
+                // If no product details are available, enable the "Add" button for adding a new product
+                document.getElementById("addButton").addEventListener("click", handleAddAction);
+                // Disable the "Edit" and "Delete" buttons since we don't have a product to edit/delete
+                document.getElementById("editButton").disabled = true;
+                document.getElementById("deleteButton").disabled = true;
+            }
+
+            // If product details are available, enable the "Edit" and "Delete" buttons for editing/deleting the product
+            if (productDetails) {
+                document.getElementById("editButton").addEventListener("click", handleEditAction);
+                document.getElementById("deleteButton").addEventListener("click", handleDeleteAction);
+            }
+        }
+
+        // Call the init function when the page is loaded
+        init();
+    </script>
+</body>
+</html>

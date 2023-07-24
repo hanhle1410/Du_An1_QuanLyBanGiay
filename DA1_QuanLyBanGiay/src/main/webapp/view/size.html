@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Size</title>
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            background-color: #ffddcc;
+            margin: 20px;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff3333;
+            text-decoration: underline;
+        }
+
+        #formContainer {
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 2px dotted #666;
+            box-shadow: 5px 5px 10px #888888;
+            max-width: 600px;
+            display: grid;
+            /* Use CSS Grid */
+            grid-template-columns: repeat(2, 1fr);
+            /* Create 2 columns with equal width */
+            gap: 10px;
+            /* Spacing between grid items */
+        }
+
+        #formContainer label {
+            font-weight: bold;
+            color: #3366cc;
+            text-shadow: 1px 1px 2px #ccc;
+        }
+
+        #formContainer input[type="text"],
+        #formContainer input[type="number"] {
+            width: 100%;
+            /* Input fields occupy the entire width of their grid cell */
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 2px solid #3366cc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            box-shadow: 1px 1px 2px #ccc;
+        }
+
+        #formContainer button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            background-color: #66cc33;
+            color: #fff;
+            border: 2px solid #3366cc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 3px #888888;
+            cursor: pointer;
+        }
+
+        #formContainer button:last-child {
+            margin-left: 10px;
+            background-color: #ff9933;
+            border-color: #cc3366;
+            box-shadow: 2px 2px 3px #666;
+        }
+
+        #error {
+            color: #cc3366;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        #productTable {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 2px 2px 5px #888888;
+        }
+
+        #productTable th,
+        #productTable td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 2px dashed #666;
+        }
+
+        #productTable th {
+            background-color: #ffcc00;
+            color: #3366cc;
+        }
+
+        #productTable td {
+            background-color: #ff99cc;
+            color: #cc3366;
+            font-weight: bold;
+        }
+
+        #productTable button {
+            padding: 5px 10px;
+            background-color: #ff3366;
+            color: #fff;
+            border: 2px solid #3366cc;
+            border-radius: 3px;
+            box-shadow: 1px 1px 2px #666;
+            cursor: pointer;
+        }
+
+        #productTable button:hover {
+            background-color: #cc3366;
+            box-shadow: 1px 1px 2px #888888;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Nhà Sản Xuất</h1>
+    <div id="formContainer">
+        <label for="id">ID:</label>
+        <input type="text" id="id">
+        <label for="coGiay">CoGiay:</label>
+        <input type="text" id="coGiay">
+        <button onclick="addProduct()">Thêm</button>
+        <button onclick="saveData()">Sửa</button>
+    </div>
+    <div id="error"></div>
+    <table id="productTable">
+        <tr>
+            <th>ID</th>
+            <th>CoGiay</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    <script>
+        // The 'rowsData' array will store the data of each row as objects
+        var rowsData = [];
+        var isEditing = false;
+        var editingRowIndex = null;
+    
+        function addProduct() {
+            var fields = ["id", "coGiay"];
+            var isFieldsFilled = true;
+            fields.forEach(function (field) {
+                if (document.getElementById(field).value === "") {
+                    isFieldsFilled = false;
+                }
+            });
+    
+            if (!isFieldsFilled) {
+                document.getElementById("error").textContent = "Vui lòng điền đầy đủ thông tin.";
+                return;
+            }
+    
+            var id = document.getElementById("id").value;
+            var coGiay = document.getElementById("coGiay").value;
+    
+            var newRowData = { id: id, coGiay: coGiay };
+            rowsData.push(newRowData);
+    
+            updateTable();
+    
+            document.getElementById("id").value = "";
+            document.getElementById("coGiay").value = "";
+            document.getElementById("error").textContent = "";
+        }
+    
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            var rowIndex = row.rowIndex - 1; // Subtract 1 to account for the table header row
+            rowsData.splice(rowIndex, 1);
+            updateTable();
+        }
+    
+        function loadData(button) {
+            var row = button.parentNode.parentNode;
+            var rowIndex = row.rowIndex - 1; // Subtract 1 to account for the table header row
+    
+            document.getElementById("id").value = rowsData[rowIndex].id;
+            document.getElementById("coGiay").value = rowsData[rowIndex].coGiay;
+    
+            isEditing = true;
+            editingRowIndex = rowIndex;
+        }
+    
+        function saveData() {
+            if (isEditing && editingRowIndex !== null) {
+                var fields = ["id", "coGiay"];
+                var isFieldsFilled = true;
+                fields.forEach(function (field) {
+                    if (document.getElementById(field).value === "") {
+                        isFieldsFilled = false;
+                    }
+                });
+    
+                if (!isFieldsFilled) {
+                    document.getElementById("error").textContent = "Vui lòng điền đầy đủ thông tin.";
+                    return;
+                }
+    
+                rowsData[editingRowIndex].id = document.getElementById("id").value;
+                rowsData[editingRowIndex].coGiay = document.getElementById("coGiay").value;
+    
+                isEditing = false;
+                editingRowIndex = null;
+                updateTable();
+    
+                document.getElementById("id").value = "";
+                document.getElementById("coGiay").value = "";
+                document.getElementById("error").textContent = "";
+            }
+        }
+    
+        function updateTable() {
+            var table = document.getElementById("productTable");
+    
+            // Clear the existing table rows
+            while (table.rows.length > 1) {
+                table.deleteRow(table.rows.length - 1);
+            }
+    
+            // Add rows based on the 'rowsData' array
+            rowsData.forEach(function (rowData) {
+                var newRow = table.insertRow(table.rows.length);
+    
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+    
+                cell1.innerHTML = rowData.id;
+                cell2.innerHTML = rowData.coGiay;
+                cell3.innerHTML = '<button onclick="loadData(this)">Load</button> <button onclick="deleteRow(this)">Xóa</button>';
+            });
+        }
+    </script>
+    
+</body>
+
+</html>

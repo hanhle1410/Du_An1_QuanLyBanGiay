@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giao diện chọn kích thước và màu sắc</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+
+    .voucher-selection {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .voucher-selection label {
+      font-size: 16px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .voucher-selection input[type="text"] {
+      padding: 5px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      flex: 1;
+    }
+    
+    .voucher-selection button {
+      padding: 5px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #008CBA;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+    
+    .voucher-selection button:hover {
+      background-color: #00698C;
+    }
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .product {
+      display: flex;
+    }
+
+    .product-details {
+      flex-basis: 60%;
+      margin-left: 20px;
+      display: flex;
+    }
+
+    .product-name {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      margin-left: 120px;
+      margin-top: 0px;
+    }
+
+    .product-price {
+      font-size: 18px;
+      color: #f44336;
+      margin-bottom: 10px;
+    }
+
+    .product-gallery {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .product-details img {
+      width: 700px;
+      height: 500px;
+    }
+
+    .product-gallery img {
+      width: 80px;
+      height: 70px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 18px;
+      float: right;
+    }
+
+    .size-color-selection {
+      margin-top: 10px;
+      float: right;
+      margin-left: 20px;
+      padding: auto;
+      width: 500px;
+    }
+
+    .size-selection,
+    .color-selection,
+    .form-selection,
+    .quantity-selection {
+      margin-bottom: 10px;
+      margin-top: 10px;
+      margin-left: 50px;
+    }
+
+    .size-selection label,
+    .color-selection label,
+    .form-selection label,
+    .quantity-selection label {
+      margin-right: 5px;
+      margin-top: 10px;
+      margin-bottom: 10PX;
+    }
+
+    .size-selection button,
+    .color-selection button,
+    .form-selection button,
+    .quantity-selection button {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+
+    .size-selection button.selected,
+    .color-selection button.selected,
+    .form-selection button.selected,
+    .quantity-selection button.selected {
+      background-color: #f44336;
+      color: #fff;
+      border-color: #f44336;
+    }
+
+    .add-to-cart {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .add-to-cart button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #f44336;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart button:hover {
+      background-color: #e53935;
+    }
+
+    .description{
+      margin-top: 70px;
+      text-align: left;
+      margin-left: 50px;
+      background-color: rgb(243, 238, 238);
+      padding: 10px;
+      border-radius: 5px;
+      width: 800px;
+    }
+    .description label {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .header-right .cart-icon,
+    .header-right .search-container {
+      margin-left: 10px;
+    }
+
+    .header-right .search-container input[type="text"] {
+      padding: 5px;
+    }
+
+    .header-right .search-container button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .header-right .search-container button i {
+      color: #333;
+    }
+
+    header {
+
+      color: white;
+      padding: 20px;
+    }
+
+    nav {
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      background-color: white;
+
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 5px;
+      text-align: center;
+    }
+
+    /* CSS cho danh sách <ul> */
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      margin-right: 15px;
+      justify-content: flex-end;
+
+
+    }
+
+    nav ul li {
+      text-align: right;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover {
+      color: white;
+    }
+
+    /* CSS cho biểu tượng giỏ hàng và ô tìm kiếm */
+    .header-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-right: 26px;
+      justify-content: space-between;
+      height: 25px;
+
+    }
+
+    .main {
+      margin-right: auto;
+      margin-left: 20px;
+    }
+
+    .lable {
+      margin-inline-end: 500px;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="#">Trang chủ</a></li>
+      <li><a href="#">Sản phẩm</a></li>
+      <li><a href="#">Đăng kí</a></li>
+      <li><a href="#">Đăng nhập</a></li>
+    </ul>
+    <hr>
+    <div class="header-right">
+      <div class="main">
+        <h1>HELLO</h1>
+      </div>
+      <div class="lable">
+        <a href="">Nam</a> &nbsp;&nbsp; <a href="">Nữ</a>
+      </div>
+      <div class="search-container">
+        <input type="text" placeholder="Tìm kiếm">
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="cart-icon">
+        <!-- Sử dụng biểu tượng giỏ hàng từ Font Awesome -->
+        <i class="fas fa-shopping-cart"></i>
+      </div>
+    </div>
+    <hr>
+  </nav>
+  <div class="product">
+    <div class="product-details">
+      <div class="product-img">
+        <img src="image/image4.jpeg" alt="Product">
+        <div class="product-gallery">
+          <img src="image/image1.jpeg" alt="Product Thumbnail">
+          <img src="image/image2.jpeg" alt="Product Thumbnail">
+          <img src="image/image3.jpeg" alt="Product Thumbnail">
+        </div>
+      </div>
+
+
+      <div class="size-color-selection">
+        <h1 class="product-name">Tên sản phẩm</h1>
+        <div class="size-selection">
+          <label for="size">Kích thước:</label>
+          <br>
+          <button class="size-button">S</button>
+          <button class="size-button">M</button>
+          <button class="size-button">L</button>
+        </div>
+      
+        <div class="color-selection">
+          <label for="color">Màu sắc:</label>
+          <br>
+          <button class="color-button">Đỏ</button>
+          <button class="color-button">Xanh</button>
+          <button class="color-button">Xanh lá</button>
+        </div>
+        <div class="form-selection">
+          <label for="form">Form:</label>
+          <br>
+          <button class="form-button">WIDE</button>
+        </div>
+        <div class="quantity-selection">
+          <label for="quantity">Số lượng:</label>
+          <br>
+          <button class="quantity-button">-</button>
+          <button class="quantity-button">1</button>
+          <button class="quantity-button">+</button>
+        </div>
+      
+        <div class="voucher-selection">
+          <label for="voucher">Nhập mã giảm giá:</label>
+          <br>
+          <input type="text" placeholder="Vui Lòng điền mã ">
+          <button class="voucher-button">Áp dụng</button>
+        </div>
+      
+        <div class="add-to-cart">
+          <button>Đặt Hàng</button>
+        </div>
+      </div>
+</body>
+
+</html>
